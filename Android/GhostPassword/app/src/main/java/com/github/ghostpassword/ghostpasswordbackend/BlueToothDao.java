@@ -56,6 +56,8 @@ public class BlueToothDao {
 
                     ParcelUuid[] uuids = device.getUuids();
                     try {
+                        int limit=3;
+                        while (counter)
                         System.out.println("Creating socket: " + uuids[0].getUuid());
                         connectSocket();
                         //socket = device.createRfcommSocketToServiceRecord(uuids[0].getUuid());
@@ -99,7 +101,7 @@ public class BlueToothDao {
             throw new GhostPasswordException("Unable to connect to bluetooth device", new Throwable("Bluetooth"));
         }
     }
-    public void write(String s) throws IOException {
+    public void write(String s) throws IOException,GhostPasswordException {
         if(!connected){
             connectSocket();
         }
@@ -115,7 +117,7 @@ public class BlueToothDao {
         //try{Thread.sleep(1000);}catch (Exception e){}
     }
 
-    public void writeQR(String s) throws IOException {
+    public void writeQR(String s) throws IOException,GhostPasswordException {
         if(!connected){
             connectSocket();
         }
