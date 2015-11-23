@@ -1,4 +1,4 @@
-package com.github.ghostpassword.keypass2android-integration;
+package com.github.ghostpassword.keepass2android_integration;
 
 public class PluginAAccessReceiver
         extends keepass2android.pluginsdk.PluginAccessBroadcastReceiver
