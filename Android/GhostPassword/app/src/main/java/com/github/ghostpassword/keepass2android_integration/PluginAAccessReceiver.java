@@ -1,5 +1,9 @@
 package com.github.ghostpassword.keepass2android_integration;
 
+import java.util.ArrayList;
+
+import keepass2android.pluginsdk.Strings;
+
 public class PluginAAccessReceiver
         extends keepass2android.pluginsdk.PluginAccessBroadcastReceiver
 {
