@@ -99,7 +99,7 @@ public class BlueToothDao {
             throw new GhostPasswordException("Unable to connect to bluetooth device", new Throwable("Bluetooth"));
         }
     }
-    public void write(String s) throws IOException {
+    public void write(String s) throws IOException, GhostPasswordException {
         if(!connected){
             connectSocket();
         }
@@ -115,7 +115,7 @@ public class BlueToothDao {
         //try{Thread.sleep(1000);}catch (Exception e){}
     }
 
-    public void writeQR(String s) throws IOException {
+    public void writeQR(String s) throws IOException, GhostPasswordException {
         if(!connected){
             connectSocket();
         }

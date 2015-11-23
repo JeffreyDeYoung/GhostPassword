@@ -37,7 +37,7 @@ public class MainScreen extends AppCompatActivity {
             //BlueToothDao dao = new BlueToothDao();
             try {
                 dao.write("This is a string!");
-            } catch (IOException e) {
+            } catch (IOException | GhostPasswordException e) {
                 e.printStackTrace();
             } finally {
                 //TODO: Figure out when the right time to close it is, if ever
