@@ -33,6 +33,9 @@ proguard/
 */.idea/
 Android/GhostPassword/.idea
 .idea
+*.idea/
+
+*.DS_Store
 *.iml
 /Android/GhostPassword/.nb-gradle/
 /Android/GhostPassword/app/target/
