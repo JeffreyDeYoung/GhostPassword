@@ -33,12 +33,12 @@ public class PasswordService
 
     public static void init(String newMaster) throws IOException, NoSuchAlgorithmException
     {
-        PasswordDao.init(newMaster);
+        PasswordDao.init(newMaster.trim());
     }
 
     public static boolean checkPassword(String masterPassword) throws IOException, NoSuchAlgorithmException
     {
-        return PasswordDao.checkPassword(masterPassword);
+        return PasswordDao.checkPassword(masterPassword.trim());
     }
 
     public Password savePassword(String friendlyName, String passwordText) throws IOException, IllegalArgumentException

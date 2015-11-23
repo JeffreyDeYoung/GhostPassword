@@ -40,7 +40,7 @@ public class CheckAndInit extends AppCompatActivity {
         }
         else if(password.getText().toString().equals(confirm.getText().toString())){
             System.out.println("Initing DB");
-            PasswordService.init(password.getText().toString());
+            PasswordService.init(password.getText().toString().trim());
             Intent intent = new Intent(this, UnlockActivity.class);
             startActivity(intent);
 

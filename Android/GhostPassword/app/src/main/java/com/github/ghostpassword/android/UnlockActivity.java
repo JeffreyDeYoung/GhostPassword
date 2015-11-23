@@ -21,7 +21,7 @@ public class UnlockActivity extends AppCompatActivity {
 
     public void onUnlockAttempt(View view) throws NoSuchAlgorithmException, IOException{
         System.out.println("Trying to unlock...");
-        if(PasswordService.checkPassword(password.getText().toString())){
+        if(PasswordService.checkPassword(password.getText().toString().trim())){
             System.out.println("Unlocking...");
             PasswordService pwService = new PasswordService(password.getText().toString());
             PasswordServiceHolder.setPasswordService(pwService);
