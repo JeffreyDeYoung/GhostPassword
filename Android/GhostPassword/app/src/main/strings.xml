@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="kp2aplugin_title">Ghost Password</string>
+    <string name="kp2aplugin_shortdesc">A app for interfacing with a hardware device to emulate a keyboard on a computer.</string>
+    <string name="kp2aplugin_author">Josh Souza, Chandan Kumar, Jeffrey DeYoung</string>
+</resources>
