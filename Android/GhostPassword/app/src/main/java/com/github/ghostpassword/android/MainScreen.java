@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.github.ghostpassword.ghostpasswordbackend.BlueToothDao;
+import com.github.ghostpassword.ghostpasswordbackend.btConnection;
 import com.github.ghostpassword.ghostpasswordbackend.GhostPasswordException;
 
 import java.io.IOException;
@@ -22,19 +23,15 @@ public class MainScreen extends AppCompatActivity {
     public static final String PREFS_NAME = "GhostPasswordData";
     public String[] OTP_keys;
     //TODO: Figure out the right place for this
-    private BlueToothDao dao;
+    public BlueToothDao dao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         //this is an ugly hack
         System.setProperty("com.github.ghostpassword.filedir", getFilesDir().getAbsolutePath());
-        try{
-            dao = new BlueToothDao();
-        } catch (GhostPasswordException e) {
-            e.printStackTrace();
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
+        dao = ((GhostPassword)getApplication()).getBtConnection();
 
 
         // Restore preferences

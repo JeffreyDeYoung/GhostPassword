@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.github.ghostpassword.ghostpasswordbackend.BlueToothDao;
 import com.github.ghostpassword.ghostpasswordbackend.GhostPasswordException;
+import com.github.ghostpassword.ghostpasswordbackend.btConnection;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -33,10 +34,12 @@ import java.util.Set;
 public class DisplayOneTimeActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 0;
     private TextView txResult;
-
+    private BlueToothDao dao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent i = getIntent();
+        dao = ((GhostPassword) getApplication()).getBtConnection();
         setContentView(R.layout.activity_display_one_time);
 
         //txResult = (TextView) findViewById(R.id.textResult);
@@ -80,7 +83,6 @@ public class DisplayOneTimeActivity extends AppCompatActivity {
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 synchronized (this) {
                     try {
-                        BlueToothDao dao = new BlueToothDao();
                         try {
                             String res=result.getContents();
                             URI url = new URI(res);
@@ -101,8 +103,6 @@ public class DisplayOneTimeActivity extends AppCompatActivity {
                             e.printStackTrace();
                         } catch (URISyntaxException e) {
                             e.printStackTrace();
-                        } finally {
-                            dao.close();
                         }
                     } catch (GhostPasswordException e) {
                         e.printStackTrace();

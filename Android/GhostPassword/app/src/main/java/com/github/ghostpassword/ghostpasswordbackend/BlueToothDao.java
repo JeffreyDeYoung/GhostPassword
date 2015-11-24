@@ -1,5 +1,6 @@
 package com.github.ghostpassword.ghostpasswordbackend;
 
+import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class BlueToothDao {
     private BluetoothSocket socket;
     private BluetoothDevice device;
     private boolean connected;
+
 
     public  BlueToothDao() throws GhostPasswordException{
         connected = false;
@@ -56,8 +59,6 @@ public class BlueToothDao {
 
                     ParcelUuid[] uuids = device.getUuids();
                     try {
-                        int limit=3;
-                        while (counter)
                         System.out.println("Creating socket: " + uuids[0].getUuid());
                         connectSocket();
                         //socket = device.createRfcommSocketToServiceRecord(uuids[0].getUuid());
@@ -126,6 +127,20 @@ public class BlueToothDao {
             System.out.println("Output stream is null.");
         }
         s = '-' + s + ':';
+        System.out.println("\n\tWriting string to bluetooth: " + s); //TODO: take this out!
+        outputStream.write(s.getBytes());
+        outputStream.flush();
+    }
+
+    public void writeTime(String s) throws IOException,GhostPasswordException {
+        if(!connected){
+            connectSocket();
+        }
+        outputStream = socket.getOutputStream();
+        if (outputStream == null) {
+            System.out.println("Output stream is null.");
+        }
+        s = '@' + s + ':';
         System.out.println("\n\tWriting string to bluetooth: " + s); //TODO: take this out!
         outputStream.write(s.getBytes());
         outputStream.flush();
