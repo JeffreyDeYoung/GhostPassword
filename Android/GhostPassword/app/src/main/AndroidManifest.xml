@@ -1,45 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.ghostpassword.android" >
+          package="com.github.ghostpassword.android">
 
-    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera"/>
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+
 
     <application
-        android:allowBackup="true"
-        android:icon="@mipmap/pacman_ghost_2"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+            android:allowBackup="true"
+            android:icon="@mipmap/pacman_ghost_2"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
         <activity
-            android:name=".MainScreen"
-            android:label="@string/app_name" >
+                android:name=".MainScreen"
+                android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".DisplayOneTimeActivity"
-            android:label="@string/title_activity_display_one_time" >
+                android:name=".DisplayOneTimeActivity"
+                android:label="@string/title_activity_display_one_time">
         </activity>
         <activity
-            android:name=".UnlockActivity"
-            android:label="@string/title_activity_display_saved_pass_screen" >
+                android:name=".UnlockActivity"
+                android:label="@string/title_activity_display_saved_pass_screen">
         </activity>
         <activity
-            android:name=".CheckAndInit"
-            android:label="@string/title_activity_check_and_init" >
+                android:name=".CheckAndInit"
+                android:label="@string/title_activity_check_and_init">
         </activity>
         <activity
-            android:name=".SavedPasswordMainActivity"
-            android:label="@string/title_activity_saved_password_main" >
+                android:name=".SavedPasswordMainActivity"
+                android:label="@string/title_activity_saved_password_main">
         </activity>
         <activity
-            android:name=".AddNewPasswordActivity"
-            android:label="@string/title_activity_add_new_password" >
+                android:name=".AddNewPasswordActivity"
+                android:label="@string/title_activity_add_new_password">
         </activity>
+
+        <receiver android:name="com.github.ghostpassword.keepass2android_integration.PluginAAccessReceiver"
+                  android:exported="true">
+            <intent-filter>
+                <action android:name="keepass2android.ACTION_TRIGGER_REQUEST_ACCESS"/>
+                <action android:name="keepass2android.ACTION_RECEIVE_ACCESS"/>
+                <action android:name="keepass2android.ACTION_REVOKE_ACCESS"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.github.ghostpassword.keepass2android_integration.PluginAActionReceiver"
+                  android:exported="true">
+            <intent-filter>
+                <action android:name="keepass2android.ACTION_OPEN_ENTRY"/>
+                <action android:name="keepass2android.ACTION_CLOSE_ENTRY_VIEW"/>
+                <action android:name="keepass2android.ACTION_ENTRY_ACTION_SELECTED"/>
+
+                <action android:name="keepass2android.ACTION_LOCK_DATABASE"/>
+                <action android:name="keepass2android.ACTION_UNLOCK_DATABASE"/>
+                <action android:name="keepass2android.ACTION_CLOSE_DATABASE"/>
+                <action android:name="keepass2android.ACTION_OPEN_DATABASE"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
