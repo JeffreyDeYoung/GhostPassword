@@ -1,5 +1,6 @@
 package com.github.ghostpassword.ghostpasswordbackend;
 
+import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -9,11 +10,12 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Set;
-
+import com.jcabi.aspects.RetryOnFailure;
 /**
  * Created by udeyoje on 10/2/15.
  *
@@ -25,6 +27,7 @@ public class BlueToothDao {
     private BluetoothSocket socket;
     private BluetoothDevice device;
     private boolean connected;
+
 
     public  BlueToothDao() throws GhostPasswordException{
         connected = false;
@@ -99,6 +102,8 @@ public class BlueToothDao {
             throw new GhostPasswordException("Unable to connect to bluetooth device", new Throwable("Bluetooth"));
         }
     }
+    // Since this closes the socket when it fails, the retry logic should work
+    @RetryOnFailure(attempts = 2, delay=20, verbose=true)
     public void write(String s) throws IOException, GhostPasswordException {
         if(!connected){
             connectSocket();
@@ -114,8 +119,29 @@ public class BlueToothDao {
         outputStream.flush();
         //try{Thread.sleep(1000);}catch (Exception e){}
     }
+    // Since this closes the socket when it fails, the retry logic should work
+    @RetryOnFailure(attempts = 2, delay=20, verbose=true)
+    public void writeQR(String s) throws GhostPasswordException {
+        if(!connected){
+            connectSocket();
+        }
+        try {
+            outputStream = socket.getOutputStream();
+            if (outputStream == null) {
+                System.out.println("Output stream is null.");
+            }
+            s = '-' + s + ':';
+            System.out.println("\n\tWriting string to bluetooth: " + s); //TODO: take this out!
+            outputStream.write(s.getBytes());
+            outputStream.flush();
+        } catch (IOException e){
+            System.out.println("\n\tUnable to send to bluetooth, closing connection"); //TODO: take this out!
+            this.close();
+            throw new GhostPasswordException("Unable to send message to device", new Throwable("Bluetooth"));
+        }
+    }
 
-    public void writeQR(String s) throws IOException, GhostPasswordException {
+    public void writeTime(String s) throws IOException,GhostPasswordException {
         if(!connected){
             connectSocket();
         }
@@ -123,7 +149,7 @@ public class BlueToothDao {
         if (outputStream == null) {
             System.out.println("Output stream is null.");
         }
-        s = '-' + s + ':';
+        s = '@' + s + ':';
         System.out.println("\n\tWriting string to bluetooth: " + s); //TODO: take this out!
         outputStream.write(s.getBytes());
         outputStream.flush();
@@ -144,7 +170,7 @@ public class BlueToothDao {
                 e.printStackTrace();
             }
         }
-
+        connected = false;
     }
 
 }

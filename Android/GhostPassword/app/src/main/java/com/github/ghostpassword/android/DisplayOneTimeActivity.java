@@ -33,10 +33,12 @@ import java.util.Set;
 public class DisplayOneTimeActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 0;
     private TextView txResult;
-
+    private BlueToothDao dao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent i = getIntent();
+        dao = ((GhostPassword) getApplication()).getBtConnection();
         setContentView(R.layout.activity_display_one_time);
 
         //txResult = (TextView) findViewById(R.id.textResult);
@@ -80,7 +82,6 @@ public class DisplayOneTimeActivity extends AppCompatActivity {
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 synchronized (this) {
                     try {
-                        BlueToothDao dao = new BlueToothDao();
                         try {
                             String res=result.getContents();
                             URI url = new URI(res);
@@ -94,6 +95,8 @@ public class DisplayOneTimeActivity extends AppCompatActivity {
                                 System.out.println("True result");
                                 System.out.println(map.get("secret"));
                                 dao.writeQR(map.get("secret"));
+                                java.util.Date date = new java.util.Date();
+                                dao.writeTime(((Long)date.getTime()).toString());
                             } //TODO: We should save all QR TOTP's so that you can re-send them
                             // Also, we should build TOTP into the app itself, because why not.
                             //TODO: We need to have a way to sync time to the device
@@ -101,8 +104,6 @@ public class DisplayOneTimeActivity extends AppCompatActivity {
                             e.printStackTrace();
                         } catch (URISyntaxException e) {
                             e.printStackTrace();
-                        } finally {
-                            dao.close();
                         }
                     } catch (GhostPasswordException e) {
                         e.printStackTrace();

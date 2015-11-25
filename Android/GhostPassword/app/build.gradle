@@ -38,4 +38,6 @@ dependencies {
 
     compile 'commons-logging:commons-logging:1.2'
 
+    compile 'com.jcabi:jcabi-aspects:0.22.2'
+
 }
